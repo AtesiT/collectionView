@@ -28,8 +28,8 @@ enum Link {
         switch self {
         case .phoneUrl: return URL(string: "https://m.media-amazon.com/images/I/41dMrsctqEL._SS64_.jpg")!
         case .emailUrl: return URL(string: "https://m.media-amazon.com/images/I/41IkY62ngPL._SS64_.jpg")!
-        case .dataUrl: return URL(string: "")! // None URL
-        case .datasUrl: return URL(string: "")! // None URL
+        case .dataUrl: return URL(string: "")! //   None URL
+        case .datasUrl: return URL(string: "https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json")!
         }
     }
 }
@@ -134,7 +134,7 @@ extension CollectionViewController {
         }.resume()
     }
     private func fetchDatas() {
-        URLSession.shared.dataTask(with: Link.phoneUrl.url) { [weak self] data, _, error in
+        URLSession.shared.dataTask(with: Link.datasUrl.url) { [weak self] data, _, error in
             guard let self else {return}
             guard let data else {
                 print(error?.localizedDescription ?? "No error")
@@ -142,8 +142,8 @@ extension CollectionViewController {
             }
             do {
                 //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
-                let course = try JSONDecoder().decode([Course].self, from: data)
-                print(course)
+                let courses = try JSONDecoder().decode([Course].self, from: data)
+                print(courses)
                 showAlert(withStatus: .success)
             } catch {
                 print(error.localizedDescription)
