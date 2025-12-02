@@ -69,17 +69,39 @@
             </objects>
             <point key="canvasLocation" x="305" y="103"/>
         </scene>
-        <!--View Controller-->
+        <!--Phone View Controller-->
         <scene sceneID="04y-sL-rlj">
             <objects>
-                <viewController id="gDa-qw-nFV" sceneMemberID="viewController">
+                <viewController id="gDa-qw-nFV" customClass="PhoneViewController" customModule="collectionView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IZn-li-VWb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="558"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="BfT-u4-vzz">
+                                <rect key="frame" x="150" y="269" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hUi-HA-bWQ">
+                                <rect key="frame" x="40" y="50" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="7QS-cv-2Vc"/>
+                                    <constraint firstAttribute="width" constant="240" id="syB-fh-vhj"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="K5T-Ia-e7S"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hUi-HA-bWQ" firstAttribute="top" secondItem="K5T-Ia-e7S" secondAttribute="top" constant="50" id="Ftd-ID-Cel"/>
+                            <constraint firstItem="BfT-u4-vzz" firstAttribute="centerX" secondItem="IZn-li-VWb" secondAttribute="centerX" id="T80-Qs-5Ep"/>
+                            <constraint firstItem="hUi-HA-bWQ" firstAttribute="centerX" secondItem="IZn-li-VWb" secondAttribute="centerX" id="aD2-yH-gmt"/>
+                            <constraint firstItem="BfT-u4-vzz" firstAttribute="centerY" secondItem="IZn-li-VWb" secondAttribute="centerY" id="iCZ-n0-YAW"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jx3-Uy-TeH"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="BfT-u4-vzz" id="FUK-nD-Axh"/>
+                        <outlet property="imageView" destination="hUi-HA-bWQ" id="SiG-8G-Bfi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e4z-n2-bJU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

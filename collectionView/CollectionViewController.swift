@@ -14,6 +14,18 @@ enum СountOfCellsWithSmth: CaseIterable {
     }
 }
 
+enum Link {
+    case phoneUrl
+    case emailUrl
+    
+    var url: URL {
+        switch self {
+        case .phoneUrl: return URL(string: "https://m.media-amazon.com/images/I/41dMrsctqEL._SS64_.jpg")!
+        case .emailUrl: return URL(string: "https://m.media-amazon.com/images/I/41IkY62ngPL._SS64_.jpg")!
+        }
+    }
+}
+
 final class CollectionViewController: UICollectionViewController {
     
     private let allCells = СountOfCellsWithSmth.allCases // At first we make an array
