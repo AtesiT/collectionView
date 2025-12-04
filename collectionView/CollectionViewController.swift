@@ -116,9 +116,9 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
             let phoneVC = segue.destination as? PhoneViewController
         } else if segue.identifier == "emailSegue" {
             let emailVC = segue.destination as? EmailViewController
-            emailVC?.fetchCourses()
         } else if segue.identifier == "cellCourseVC" {
             let courseVC = segue.destination as? CourseTableViewController
+            courseVC?.takeCourses()
         }
     }
 }

@@ -16,6 +16,9 @@ class CourseTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellCourse", for: indexPath)
         guard let cell = cell as? CourseTableViewCell else { return UITableViewCell() }
+        let course = courses[indexPath.row]
+        cell.configure(with: course)
+        
         
         return cell
     }
@@ -33,7 +36,7 @@ class CourseTableViewController: UITableViewController {
                 
                 print(courses)
             } catch {
-                print(error.localizedDescription)
+                print(error)
                 //  Выведится не тот error, что выше(с сетью сязан), а другой (с декодипрованием связан)
             }
 
