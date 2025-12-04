@@ -92,7 +92,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         CGSize(width: UIScreen.main.bounds.width - 50 , height: 100)
     }
     
-    // MARK: UICollectionViewDelegate
+    // MARK: - UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //  Метод, благодаря которому, можно отследить по какой ячейки нажимает пользователь
         let userAction = allCells[indexPath.item]
@@ -107,7 +107,18 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         case .fetchDatas:
             fetchDatas()
         case .course:
-            print("")
+            performSegue(withIdentifier: "cellCourseVC", sender: nil)
+        }
+    }
+    //  MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "phoneSegue" {
+            let phoneVC = segue.destination as? PhoneViewController
+        } else if segue.identifier == "emailSegue" {
+            let emailVC = segue.destination as? EmailViewController
+            emailVC?.fetchCourses()
+        } else if segue.identifier == "cellCourseVC" {
+            let courseVC = segue.destination as? CourseTableViewController
         }
     }
 }
