@@ -37,7 +37,7 @@ class CourseTableViewController: UITableViewController {
             
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                // conertToSnake was deleted 'cause we have manual setting
                 //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
                 courses = try decoder.decode([Course].self, from: data)
                 //  Нужно выйти в основной поток, чтобы отобразить что-либо на экране
