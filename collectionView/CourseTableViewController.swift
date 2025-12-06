@@ -36,8 +36,10 @@ class CourseTableViewController: UITableViewController {
             }
             
             do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
-                courses = try JSONDecoder().decode([Course].self, from: data)
+                courses = try decoder.decode([Course].self, from: data)
                 //  Нужно выйти в основной поток, чтобы отобразить что-либо на экране
                 DispatchQueue.main.async {
                     //  Мы в двойном блоке замыкания. Здесь безопасно использовать self, т.к. он уже обработан выше
