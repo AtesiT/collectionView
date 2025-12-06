@@ -7,9 +7,15 @@ final class CourseTableViewCell: UITableViewCell {
     @IBOutlet var idLabel: UILabel!
     
     func configure(with course: Course) {
+        //  Весь этот код выполняется в основном потоке (main thread)
         nameLabel.text = course.name
         languageLabel.text = course.language
         idLabel.text = course.id
+        //  Компилятор остановится и будет ждать, пока не сработает строка снизу (получение картинки с интернета)
+        guard let imageData = try? Data(contentsOf: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png")!) else {return}
+        //  После инициализации Data, содается изображение в imageData
+        //  Затем, мы передаем это изображение в наш Outlet
+        imageCourse.image = UIImage(data: imageData)
         
     }
 }

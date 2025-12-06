@@ -8,6 +8,11 @@ class CourseTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = 100
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("VC is ready!")
+    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
