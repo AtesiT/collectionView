@@ -22,4 +22,23 @@ final class NetworkManager {
             }
         }
     }
+    func fetchCourse(from url: URL, completion: @escaping (Result<Course, NetworkError>) -> Void) {
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                guard let data else {
+                    print(error ?? "No error")
+                    return
+                }
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
+                    let course = try decoder.decode(Course.self, from: data)
+                    completion(.success(course))
+                } catch {
+                    completion(.failure(.decodingError))
+                    //  Выведится не тот error, что выше(с сетью сязан), а другой (с декодипрованием связан)
+                }
+
+            }.resume()
+    }
 }

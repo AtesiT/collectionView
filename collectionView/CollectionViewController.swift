@@ -28,7 +28,7 @@ enum Link {
         switch self {
         case .phoneUrl: return URL(string: "https://m.media-amazon.com/images/I/41dMrsctqEL._SS64_.jpg")!
         case .emailUrl: return URL(string: "https://m.media-amazon.com/images/I/41IkY62ngPL._SS64_.jpg")!
-        case .dataUrl: return URL(string: "")! //   None URL
+        case .dataUrl: return URL(string: "https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json")!
         case .datasUrl: return URL(string: "https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json")!
         }
     }
@@ -56,6 +56,7 @@ enum Alert {
 final class CollectionViewController: UICollectionViewController {
     
     private let allCells = СountOfCellsWithSmth.allCases // At first we make an array
+    private let networkManager = NetworkManager.shared
     
     // MARK: UICollectionViewDataSource
 
@@ -125,25 +126,16 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension CollectionViewController {
     private func fetchData() {
-        URLSession.shared.dataTask(with: Link.dataUrl.url) { [weak self] data, _, error in
-            guard let self else {return}
-            guard let data else {
-                print(error?.localizedDescription ?? "No error")
-                return
-            }
-            do {
-                //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
-                let course = try JSONDecoder().decode(Course.self, from: data)
+        networkManager.fetchCourse(from: Link.dataUrl.url) { result in
+            switch result {
+            case .success(let course):
                 print(course)
-                showAlert(withStatus: .success)
-            } catch {
-                print(error.localizedDescription)
-                //  Выведится не тот error, что выше(с сетью сязан), а другой (с декодипрованием связан)
-                showAlert(withStatus: .failed)
+            case .failure(let error):
+                print(error)
             }
-
-        }.resume()
+        }
     }
+    
     private func fetchDatas() {
         URLSession.shared.dataTask(with: Link.datasUrl.url) { [weak self] data, _, error in
             guard let self else {return}
