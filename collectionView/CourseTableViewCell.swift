@@ -14,9 +14,13 @@ final class CourseTableViewCell: UITableViewCell {
         languageLabel.text = course.language
         idLabel.text = course.id
         //  Нужно выйти в фоновый поток (global)
-        networkManager.fetchImage(from: URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSci3e4K0DV-AzzuQdTfAqRL3ZXkjeQRnaWw&s")!) { [unowned self] imageData in
-            imageCourse.image = UIImage(data: imageData)
-            
+        networkManager.fetchImage(from: URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSci3e4K0DV-AzzuQdTfAqRL3ZXkjeQRnaWw&s")!) { [unowned self] result in
+            switch result {
+            case .success(let imageData):
+                imageCourse.image = UIImage(data: imageData)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }
