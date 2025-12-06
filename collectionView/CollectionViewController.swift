@@ -126,7 +126,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension CollectionViewController {
     private func fetchData() {
-        networkManager.fetchCourse(from: Link.dataUrl.url) { result in
+        networkManager.fetch(Course.self, from: Link.dataUrl.url) { result in
             switch result {
             case .success(let course):
                 print(course)
@@ -137,23 +137,13 @@ extension CollectionViewController {
     }
     
     private func fetchDatas() {
-        URLSession.shared.dataTask(with: Link.datasUrl.url) { [weak self] data, _, error in
-            guard let self else {return}
-            guard let data else {
-                print(error?.localizedDescription ?? "No error")
-                return
-            }
-            do {
-                //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
-                let courses = try JSONDecoder().decode([Course].self, from: data)
+        networkManager.fetch([Course].self, from: Link.datasUrl.url) { result in
+            switch result {
+            case .success(let courses):
                 print(courses)
-                showAlert(withStatus: .success)
-            } catch {
-                print(error.localizedDescription)
-                //  Выведится не тот error, что выше(с сетью сязан), а другой (с декодипрованием связан)
-                showAlert(withStatus: .failed)
+            case .failure(let error):
+                print(error)
             }
-
-        }.resume()
+        }
     }
 }

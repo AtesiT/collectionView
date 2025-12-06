@@ -22,7 +22,7 @@ final class NetworkManager {
             }
         }
     }
-    func fetchCourse(from url: URL, completion: @escaping (Result<Course, NetworkError>) -> Void) {
+    func fetch<T:Decodable>(_ type: T.Type, from url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
             URLSession.shared.dataTask(with: url) { data, _, error in
                 guard let data else {
                     print(error ?? "No error")
@@ -32,8 +32,8 @@ final class NetworkManager {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
-                    let course = try decoder.decode(Course.self, from: data)
-                    completion(.success(course))
+                    let dataModel = try decoder.decode(T.self, from: data)
+                    completion(.success(dataModel ))
                 } catch {
                     completion(.failure(.decodingError))
                     //  Выведится не тот error, что выше(с сетью сязан), а другой (с декодипрованием связан)
@@ -41,4 +41,5 @@ final class NetworkManager {
 
             }.resume()
     }
+    
 }
