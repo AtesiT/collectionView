@@ -3,6 +3,7 @@ import UIKit
 class CourseTableViewController: UITableViewController {
 
     private var courses: [Course] = []
+    private let networkManager = NetworkManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,29 +29,15 @@ class CourseTableViewController: UITableViewController {
         return cell
     }
     func takeCourses() {
-        URLSession.shared.dataTask(with: Link.datasUrl.url) { [weak self] data, _, error in
-            guard let self else {return}
-            guard let data else {
-                print(error ?? "No error")
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                // conertToSnake was deleted 'cause we have manual setting
-                //  После прохождения guard, в значении data хранится JSON-файл, который необходимо декодировать
-                courses = try decoder.decode([Course].self, from: data)
-                //  Нужно выйти в основной поток, чтобы отобразить что-либо на экране
-                DispatchQueue.main.async {
-                    //  Мы в двойном блоке замыкания. Здесь безопасно использовать self, т.к. он уже обработан выше
-                    self.tableView.reloadData()
-                }
-                print(courses)
-            } catch {
+        networkManager.fetch([Course].self, from: Link.datasUrl.url) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let courses):
+                self.courses = courses
+                tableView.reloadData()
+            case .failure(let error):
                 print(error)
-                //  Выведится не тот error, что выше(с сетью сязан), а другой (с декодипрованием связан)
             }
-
-        }.resume()
+        }
     }
 }
