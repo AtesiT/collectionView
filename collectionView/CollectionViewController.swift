@@ -167,13 +167,14 @@ extension CollectionViewController {
         }
     }
     private func postRequestModel() {
-        let course = Course(
-            name: "Networking",
-            language: "anyData",
-            id: "1"
-        )
+        let course = [
+            "name": "Networking",
+            "imageUrl": "https://example.com/image.png",
+            "numberOfLessons": "10",
+            "numberOfTests": "5"
+        ]
         
-        networkManager.postRequest(with: course,  to: Link.dataUrl.url) { [weak self] result in
+        networkManager.postRequest(with: course, to: Link.dataUrl.url) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let json):

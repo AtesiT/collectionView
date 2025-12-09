@@ -64,7 +64,7 @@ final class NetworkManager {
             }
         }.resume()
     }
-    func postRequestModelFunc(with parameters: Course, from url: URL, completion: @escaping(Result<Any, NetworkError) -> Void) {
+    func postRequestModelFunc(with parameters: Course, from url: URL, completion: @escaping(Result<Any, NetworkError>) -> Void) {
         //  До этого мы не извлекали из опционалов, а сейчас извлекаем т.к. сейчас мы работаем с моделью данных (а в них свойства не опциональные и проще обработать)
         guard let encodedJSON = try? JSONEncoder().encode(parameters) else {
             completion(.failure(.noData))
