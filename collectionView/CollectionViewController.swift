@@ -146,4 +146,27 @@ extension CollectionViewController {
             }
         }
     }
+    private func postRequestDictionary() {
+        let parameters = [
+            "name": "Networking",
+            "imageUrl": "https://example.com/image.png",
+            "numberOfLessons": "10",
+            "numberOfTests": "5"
+        ]
+        
+        networkManager.postRequest(with: parameters, to: Link.datasUrl.url) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let json):
+                print(json)
+                showAlert(withStatus: .success)
+            case .failure(let error):
+                print(error)
+                showAlert(withStatus: .failed)
+            }
+        }
+    }
+    private func postRequestModel() {
+        
+    }
 }
