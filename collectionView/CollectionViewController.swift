@@ -167,6 +167,23 @@ extension CollectionViewController {
         }
     }
     private func postRequestModel() {
+        let course = Course(
+            name: "Networking",
+            language: "anyData",
+            id: "1"
+        )
         
+        networkManager.postRequest(with: course,  to: Link.dataUrl.url) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let json):
+                print(json)
+                showAlert(withStatus: .success)
+            case .failure(let error):
+                print(error)
+                showAlert(withStatus: .failed)
+            }
+        }
+
     }
 }

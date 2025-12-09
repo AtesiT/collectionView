@@ -46,8 +46,8 @@ final class NetworkManager {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = serializedData
-        
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data, let response else {
                 print(error?.localizedDescription ?? "No error")
@@ -64,5 +64,29 @@ final class NetworkManager {
             }
         }.resume()
     }
-    
+    func postRequestModelFunc(with parameters: Course, from url: URL, completion: @escaping(Result<Any, NetworkError) -> Void) {
+        //  До этого мы не извлекали из опционалов, а сейчас извлекаем т.к. сейчас мы работаем с моделью данных (а в них свойства не опциональные и проще обработать)
+        guard let encodedJSON = try? JSONEncoder().encode(parameters) else {
+            completion(.failure(.noData))
+            return 
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = encodedJSON
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            guard let data else {
+                print(error?.localizedDescription ?? "No error")
+                return
+            }
+            
+            do {
+                let course = try JSONDecoder().decode(Course.self, from: data)
+                completion(.success(course))
+            } catch {
+                completion(.failure(.decodingError))
+            }
+        }.resume()
+    }
 }
